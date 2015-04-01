@@ -57,7 +57,7 @@ static void change_power_class(int power_class_id){
 			power_c = (struct power_class){ POWER_OPS_8, power_class_id };
 			break;
 		default:
-			power_c = (struct power_class) {POWER_OPS_X, power_class_id};f
+			power_c = (struct power_class) {POWER_OPS_X, power_class_id};
 	}
 	//activate the previously selected power_class
 	activate_power_class(&power_c);

@@ -15,7 +15,9 @@ powerm_module-objs += power_class_4.o
 powerm_module-objs += power_class_3.o
 powerm_module-objs += power_class_2.o
 powerm_module-objs += power_class_1.o
+powerm_module-objs += power_class_0.o
 powerm_module-objs += power_class_X.o
+powerm_module-objs += powerm_control.o
 powerm_module-objs += powerm.o
 
 ccflags-y := -I$(PWD)/include
