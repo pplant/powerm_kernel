@@ -1,6 +1,17 @@
 #ifndef POWER_CLASS_H_
 #define POWER_CLASS_H_
 
+#define BRIGHTNESS_P8 200	
+#define BRIGHTNESS_P7 200
+#define BRIGHTNESS_P6 100
+#define BRIGHTNESS_P5 50
+#define BRIGHTNESS_P4 50
+#define BRIGHTNESS_P3 20
+#define BRIGHTNESS_P2 20
+#define BRIGHTNESS_P1 1
+#define BRIGHTNESS_P0 1
+
+
 struct power_class_ops
 {
     void (*activate)(void);
