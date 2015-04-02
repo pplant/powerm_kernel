@@ -1,0 +1,25 @@
+From eb909c8e7dd087e146fd6f670521ef82da356da7 Mon Sep 17 00:00:00 2001
+From: pplant <plant.peter.bz@gmail.com>
+Date: Thu, 2 Apr 2015 10:32:56 +0200
+Subject: [PATCH 3/3] Bug fixed that failed the compilation
+
+---
+ drivers/video/backlight/lm3630_bl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/video/backlight/lm3630_bl.c b/drivers/video/backlight/lm3630_bl.c
+index f43c870..3c47d95 100644
+--- a/drivers/video/backlight/lm3630_bl.c
++++ b/drivers/video/backlight/lm3630_bl.c
+@@ -300,7 +300,7 @@ void lm3630_lcd_backlight_set_max_level(int max_level)
+ 		return;
+ 	}
+ 
+-	pr_debug("%s: level=%d\n", __func__, level);
++	pr_debug("%s: level=%d\n", __func__, max_level);
+ 	
+ 	lm3630_dev->max_brightness = max_level;
+ }
+-- 
+2.1.0
+

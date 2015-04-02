@@ -1,0 +1,78 @@
+From 14ef5f15f65c454d95227e3c8ddc1f830e624d2c Mon Sep 17 00:00:00 2001
+From: pplant <plant.peter.bz@gmail.com>
+Date: Wed, 1 Apr 2015 23:42:39 +0200
+Subject: [PATCH 2/3] Added get maximum level function to backlight driver Set
+ minimum backlight level to 1 Changed kernel extra version number to 4
+
+---
+ Makefile                                                    |  2 +-
+ .../dts/msm8974-hammerhead/msm8974-hammerhead-misc.dtsi     |  2 +-
+ drivers/video/backlight/lm3630_bl.c                         | 13 +++++++++++++
+ include/linux/platform_data/lm3630_bl.h                     |  1 +
+ 4 files changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 0f5db06..774e978 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,7 @@
+ VERSION = 3
+ PATCHLEVEL = 4
+ SUBLEVEL = 0
+-EXTRAVERSION = .3-energy-aware
++EXTRAVERSION = .4-energy-aware
+ NAME = Saber-toothed Squirrel
+ 
+ # *DOCUMENTATION*
+diff --git a/arch/arm/boot/dts/msm8974-hammerhead/msm8974-hammerhead-misc.dtsi b/arch/arm/boot/dts/msm8974-hammerhead/msm8974-hammerhead-misc.dtsi
+index ff71ce7..55ac1c4 100644
+--- a/arch/arm/boot/dts/msm8974-hammerhead/msm8974-hammerhead-misc.dtsi
++++ b/arch/arm/boot/dts/msm8974-hammerhead/msm8974-hammerhead-misc.dtsi
+@@ -56,7 +56,7 @@
+ 			lm3630,bank_sel = <0>;  /* BANK A */
+ 			lm3630,linear_map = <1>;
+ 			lm3630,max_current = <0x12>;
+-			lm3630,min_brightness = <0x05>;
++			lm3630,min_brightness = <0x01>;
+ 			lm3630,default_brightness = <0x20>;
+ 			lm3630,max_brightness = <0xFF>;
+ 			lm3630,pwm_enable = <0>;
+diff --git a/drivers/video/backlight/lm3630_bl.c b/drivers/video/backlight/lm3630_bl.c
+index 98edad7..f43c870 100644
+--- a/drivers/video/backlight/lm3630_bl.c
++++ b/drivers/video/backlight/lm3630_bl.c
+@@ -293,6 +293,19 @@ void lm3630_lcd_backlight_set_level(int level)
+ }
+ EXPORT_SYMBOL(lm3630_lcd_backlight_set_level);
+ 
++void lm3630_lcd_backlight_set_max_level(int max_level)
++{
++	if (!lm3630_dev) {
++		pr_warn("%s: No device\n", __func__);
++		return;
++	}
++
++	pr_debug("%s: level=%d\n", __func__, level);
++	
++	lm3630_dev->max_brightness = max_level;
++}
++EXPORT_SYMBOL(lm3630_lcd_backlight_set_max_level);
++
+ static int bl_set_intensity(struct backlight_device *bd)
+ {
+ 	struct i2c_client *client = to_i2c_client(bd->dev.parent);
+diff --git a/include/linux/platform_data/lm3630_bl.h b/include/linux/platform_data/lm3630_bl.h
+index 2dcc031..a56afed 100644
+--- a/include/linux/platform_data/lm3630_bl.h
++++ b/include/linux/platform_data/lm3630_bl.h
+@@ -16,6 +16,7 @@
+ #define __LM3630_BL_H
+ 
+ void lm3630_lcd_backlight_set_level(int level);
++void lm3630_lcd_backlight_set_max_level(int max_level);
+ int lm3630_lcd_backlight_get_level(void);
+ 
+ struct lm3630_platform_data {
+-- 
+2.1.0
+
