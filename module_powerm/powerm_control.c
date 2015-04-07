@@ -7,9 +7,10 @@
 void set_backlight_level(int level){
 	int level_current = 255;
 	level_current = lm3630_lcd_backlight_get_level();
-	if(level_current < level){
+	printk(KERN_INFO POWER_TAG": Level current %d\n",level_current);
+	if(level_current > level){
 		lm3630_lcd_backlight_set_level(level);
-		printk(KERN_INFO POWER_TAG"Level current %d\n",level_current);
+		printk(KERN_INFO POWER_TAG": New current level %d\n",level);
 	}
 
 	lm3630_lcd_backlight_set_max_level(level);

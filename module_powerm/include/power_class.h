@@ -3,13 +3,21 @@
 
 #define BRIGHTNESS_P8 200	
 #define BRIGHTNESS_P7 200
-#define BRIGHTNESS_P6 100
-#define BRIGHTNESS_P5 50
-#define BRIGHTNESS_P4 50
-#define BRIGHTNESS_P3 20
-#define BRIGHTNESS_P2 20
-#define BRIGHTNESS_P1 1
+#define BRIGHTNESS_P6 40
+#define BRIGHTNESS_P5 30
+#define BRIGHTNESS_P4 20
+#define BRIGHTNESS_P3 10
+#define BRIGHTNESS_P2 5
+#define BRIGHTNESS_P1 3
 #define BRIGHTNESS_P0 1
+
+#define VIBRATOR_P6 30
+#define VIBRATOR_P5 30
+#define VIBRATOR_P4 30
+#define VIBRATOR_P3 30
+#define VIBRATOR_P2 30
+#define VIBRATOR_P1 0
+#define VIBRATOR_P0 0
 
 
 struct power_class_ops

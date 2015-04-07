@@ -28,6 +28,7 @@ static struct power_class power_c;
 /* Power class check/selection methods */
 
 static void change_power_class(int power_class_id){
+	power_c = (struct power_class) { 0 };
 	switch (power_class_id){
 		case 0:
 			power_c = (struct power_class){ POWER_OPS_0, power_class_id };
@@ -65,6 +66,7 @@ static void change_power_class(int power_class_id){
 
 static void check_power_class(int capacity){
 	int power_class_id = capacity/10;
+
 	if(power_c.power_class_id != power_class_id){
 		change_power_class(power_class_id);
 	}
@@ -107,7 +109,9 @@ static void start_timer(void){
 
 int init_module(void)
 {
-	if(force_capacity != 0){
+	//Initalizing power_c
+	power_c = (struct power_class){ POWER_OPS_X, -1 };
+	if(force_capacity == -1){
 		psy = power_supply_get_by_name(name);
 		if(psy != NULL){
 			printk(KERN_INFO POWER_TAG": Module running\n");
