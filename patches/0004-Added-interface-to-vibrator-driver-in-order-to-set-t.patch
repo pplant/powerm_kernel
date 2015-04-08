@@ -1,0 +1,95 @@
+From 2fc5c16a4bb65f7fde8a542327afb3d42148760a Mon Sep 17 00:00:00 2001
+From: pplant <plant.peter.bz@gmail.com>
+Date: Tue, 7 Apr 2015 22:40:00 +0200
+Subject: [PATCH 4/4] Added interface to vibrator driver in order to set the
+ gain value dynamically
+
+---
+ Makefile                             |  2 +-
+ drivers/misc/msm8974_pwm_vibrator.c  | 18 +++++++++++++-----
+ include/linux/msm8974_pwm_vibrator.h |  6 ++++++
+ 3 files changed, 20 insertions(+), 6 deletions(-)
+ create mode 100644 include/linux/msm8974_pwm_vibrator.h
+
+diff --git a/Makefile b/Makefile
+index 774e978..da69195 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,7 @@
+ VERSION = 3
+ PATCHLEVEL = 4
+ SUBLEVEL = 0
+-EXTRAVERSION = .4-energy-aware
++EXTRAVERSION = .5-energy-aware
+ NAME = Saber-toothed Squirrel
+ 
+ # *DOCUMENTATION*
+diff --git a/drivers/misc/msm8974_pwm_vibrator.c b/drivers/misc/msm8974_pwm_vibrator.c
+index 3c67b3e..d294f96 100644
+--- a/drivers/misc/msm8974_pwm_vibrator.c
++++ b/drivers/misc/msm8974_pwm_vibrator.c
+@@ -33,7 +33,7 @@
+ #include <linux/of.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/mutex.h>
+-
++#include <linux/msm8974_pwm_vibrator.h>
+ #include <mach/msm_iomap.h>
+ 
+ #include "../staging/android/timed_output.h"
+@@ -103,6 +103,8 @@ struct timed_vibrator_data {
+ 
+ static struct clk *cam_gp1_clk;
+ 
++static int forced_gain;
++
+ static int vibrator_regulator_init(
+ 		struct platform_device *pdev,
+ 		struct timed_vibrator_data *vib)
+@@ -330,13 +332,18 @@ static void msm8974_pwm_vibrator_on(struct work_struct *work)
+ 	struct delayed_work *delayed_work = to_delayed_work(work);
+ 	struct timed_vibrator_data *vib =
+ 		container_of(delayed_work, struct timed_vibrator_data,
+-				work_vibrator_on);
+-	int gain = vib->gain;
++				work_vibrator_on);	
+ 	int pwm = vib->pwm;
+ 
+-	pr_debug("%s: gain = %d pwm = %d\n", __func__, gain, pwm);
+-	msm8974_pwm_vibrator_force_set(vib, gain, pwm);
++	pr_debug("%s: gain = %d pwm = %d\n", __func__, forced_gain, pwm);
++	msm8974_pwm_vibrator_force_set(vib, forced_gain, pwm);
++}
++
++void msm8974_pwm_vibrator_gain(int gain)
++{
++	forced_gain = gain;
+ }
++EXPORT_SYMBOL(msm8974_pwm_vibrator_gain); 
+ 
+ static void msm8974_pwm_vibrator_off(struct work_struct *work)
+ {
+@@ -760,6 +767,7 @@ static int msm8974_pwm_vibrator_probe(struct platform_device *pdev)
+ 		ret = vibrator_parse_dt(&pdev->dev, vib);
+ 		if (ret < 0)
+ 			return ret;
++		forced_gain = vib->gain;
+ 	}
+ 
+ 	if (vibrator_regulator_init(pdev, vib) < 0) {
+diff --git a/include/linux/msm8974_pwm_vibrator.h b/include/linux/msm8974_pwm_vibrator.h
+new file mode 100644
+index 0000000..d623a76
+--- /dev/null
++++ b/include/linux/msm8974_pwm_vibrator.h
+@@ -0,0 +1,6 @@
++#ifndef _MSM8974_PWM_VIBRATOR_H_
++#define _MSM8974_PWM_VIBRATOR_H_
++
++void msm8974_pwm_vibrator_gain(int gain);
++
++#endif
+\ No newline at end of file
+-- 
+2.1.0
+
