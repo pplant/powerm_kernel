@@ -1,6 +1,6 @@
+#include <linux/module.h>
 #include <linux/kernel.h> 
 #include <linux/platform_data/lm3630_bl.h>
-//#include <linux/cpufreq_ondemand.h>
 #include <linux/cpufreq.h>
 #include "include/powerm.h"
 
@@ -21,6 +21,16 @@ void set_backlight_level(int level)
 
 void set_gov_powersave_bias(int bias)
 {
+	
+	if(update_powersave_bias(bias))
+	{
+		printk(KERN_INFO "bias updated %d\n",bias);
+	}
+	else
+	{
+		printk(KERN_INFO "bias still the same %d\n",bias);
+	}
+
 	/*dbs_tuners_ins.powersave_bias = bias;*/
 }
 
