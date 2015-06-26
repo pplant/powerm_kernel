@@ -19,13 +19,6 @@
 #define VIBRATOR_P1 0
 #define VIBRATOR_P0 0
 
-/*PS stands for power save. 100/10 = 10% of the target 
- * clock speed reduced*/
-#define PS_BIAS_BASE 50
-#define PS_BIAS_MID 100
-#define PS_BIAS_LOW 200
-#define PS_BIAS_VLOW 300
-
 #define MAX_CPUFREQ_P8 1958400
 #define MAX_CPUFREQ_P7 1728000
 #define MAX_CPUFREQ_P6 1574400

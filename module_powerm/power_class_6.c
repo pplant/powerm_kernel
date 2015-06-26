@@ -9,7 +9,6 @@ static void activate(void)
     printk(KERN_INFO POWER_TAG": Activated power class 6\n");
     set_backlight_level(BRIGHTNESS_P6);
     msm8974_pwm_vibrator_gain(VIBRATOR_P6);
-    set_gov_powersave_bias(PS_BIAS_MID);
     set_max_cpu_freq(MAX_CPUFREQ_P6);
 }
 

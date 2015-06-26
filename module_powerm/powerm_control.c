@@ -1,6 +1,5 @@
 #include <linux/kernel.h> 
 #include <linux/platform_data/lm3630_bl.h>
-//#include <linux/cpufreq_ondemand.h>
 #include <linux/cpufreq.h>
 #include "include/powerm.h"
 
@@ -17,11 +16,6 @@ void set_backlight_level(int level)
 	}
 
 	lm3630_lcd_backlight_set_max_level(level);
-}
-
-void set_gov_powersave_bias(int bias)
-{
-	/*dbs_tuners_ins.powersave_bias = bias;*/
 }
 
 void set_max_cpu_freq(int max_freq)
