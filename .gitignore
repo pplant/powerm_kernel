@@ -11,7 +11,7 @@ android_boot_tools_bin/
 package.sh
 arm-eabi-4.6/
 **/.*.o*
-
+**/*~
 module_powersupply/
 module_halloworld/
 .*/
