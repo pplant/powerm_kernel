@@ -10,6 +10,7 @@ static void activate(void)
     set_backlight_level(BRIGHTNESS_P6);
     msm8974_pwm_vibrator_gain(VIBRATOR_P6);
     set_max_cpu_freq(MAX_CPUFREQ_P6);
+    set_max_gpu_power_level(MAX_GPU_LV_P6);
 }
 
 const struct power_class_ops *POWER_OPS_6 = &((struct power_class_ops){ activate });
