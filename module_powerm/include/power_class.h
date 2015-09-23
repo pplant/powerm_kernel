@@ -1,8 +1,11 @@
 #ifndef POWER_CLASS_H_
 #define POWER_CLASS_H_
 
-#define BRIGHTNESS_P8 200
-#define BRIGHTNESS_P7 200
+#include <linux/kernel.h>
+#include "powerm.h"
+
+#define BRIGHTNESS_P8 150
+#define BRIGHTNESS_P7 100
 #define BRIGHTNESS_P6 40
 #define BRIGHTNESS_P5 30
 #define BRIGHTNESS_P4 20
@@ -39,10 +42,15 @@
 #define MAX_GPU_LV_P1 5
 #define MAX_GPU_LV_P0 5
 
+#define PS_BIAS_BASE 50
+#define PS_BIAS_MID 100
+#define PS_BIAS_LOW 200
+#define PS_BIAS_VLOW 300
 
 struct power_class_ops
 {
     void (*activate)(void);
+    void (*update)(void);
 };
 
 struct power_class
@@ -54,7 +62,26 @@ struct power_class
 // wrapper function
 static inline void activate_power_class(struct power_class *p_class)
 {
-	p_class->ops->activate();
+  if(p_class == NULL){
+    printk(KERN_INFO POWER_TAG": p_class null\n");
+  }else{
+    	if(p_class->ops == NULL){
+        printk(KERN_INFO POWER_TAG": ops null\n");
+      }
+  }
+  p_class->ops->activate();
+}
+
+static inline void update_power_class(struct power_class *p_class)
+{
+  if(p_class == NULL){
+    printk(KERN_INFO POWER_TAG": p_class null\n");
+  }else{
+    	if(p_class->ops == NULL){
+        printk(KERN_INFO POWER_TAG": ops null\n");
+      }
+  }
+  p_class->ops->update();
 }
 
 extern const struct power_class_ops *POWER_OPS_0;
